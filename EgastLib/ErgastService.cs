@@ -10,7 +10,7 @@ namespace EgastLib
 {
     public class ErgastService
     {
-        public async Task<Laps> GetLastRaceLaps(int season = 0, int race = 0, int limit = 2000)
+        public async Task<Laps> GetLapsAsync(int season = 0, int race = 0, int limit = 2000)
         {
             string year = season == 0 ? "current" : season.ToString();
             string raceNumber = race == 0 ? "last" : race.ToString();

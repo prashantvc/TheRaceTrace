@@ -20,13 +20,25 @@ namespace ErgastLibTests
             apiMock.Setup(x => x.GetLapsAsync("current", "last", 2000)).ReturnsAsync(_testData!);
 
             var service = new ErgastService(apiMock.Object);
-            var laps = await service.GetLastRaceLaps();
+            var laps = await service.GetLapsAsync();
 
-            apiMock.Verify(x => x.GetLapsAsync(It.Is<string>(s => s == "current"), It.Is<string>(s => s == "last"), It.Is<int>(i => i == 2000)), Times.Once);
+            apiMock.Verify(x=>x.GetLapsAsync("current", "last", 2000), Times.Once);
             Assert.IsNotNull(laps);
             Assert.AreEqual(1157, laps.MrData.TotalLaps);
-            
+        }
 
+        [TestMethod]
+        public async Task GivenSeasonAndRoundWhenAskedLapsReturnLaps()
+        {
+            var apiMock = new Mock<IErgastApi>();
+            apiMock.Setup(x => x.GetLapsAsync("2021", "2", 2000)).ReturnsAsync(_testData!);
+            
+            var service = new ErgastService(apiMock.Object);
+            var laps = await service.GetLapsAsync(2021, 2);
+            
+            Assert.IsNotNull(laps);
+            apiMock.Verify(x=>x.GetLapsAsync("2021", "2", 2000), Times.Once);
+            
         }
 
         async Task<Laps?> GetTestDataAsync()
