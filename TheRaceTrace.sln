@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRaceTraceWpf", "TheRaceTraceWpf\TheRaceTraceWpf.csproj", "{9D1628C4-C748-4873-8E98-7079905167A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EgastLib", "EgastLib\EgastLib.csproj", "{992EDD74-322C-4FC8-B748-914527F8C2CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D1628C4-C748-4873-8E98-7079905167A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D1628C4-C748-4873-8E98-7079905167A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D1628C4-C748-4873-8E98-7079905167A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D1628C4-C748-4873-8E98-7079905167A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A02BC151-8406-4B82-84C2-FC478C99E18E}
+	EndGlobalSection
+EndGlobal
