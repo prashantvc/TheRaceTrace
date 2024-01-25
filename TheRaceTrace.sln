@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErgastLib", "EgastLib\Ergas
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{73FB7306-9E15-4D28-B27E-917E708F9A0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErgastLibTests", "ErgastLibTests\ErgastLibTests.csproj", "{C4F30F08-F8EF-43CF-BC76-FE5FC528E549}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,9 +25,16 @@ Global
 		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{992EDD74-322C-4FC8-B748-914527F8C2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F30F08-F8EF-43CF-BC76-FE5FC528E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F30F08-F8EF-43CF-BC76-FE5FC528E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F30F08-F8EF-43CF-BC76-FE5FC528E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F30F08-F8EF-43CF-BC76-FE5FC528E549}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C4F30F08-F8EF-43CF-BC76-FE5FC528E549} = {73FB7306-9E15-4D28-B27E-917E708F9A0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A02BC151-8406-4B82-84C2-FC478C99E18E}

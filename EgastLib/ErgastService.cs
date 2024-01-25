@@ -2,27 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EgastLib
 {
-    internal class ErgastService
+    public class ErgastService
     {
-
-        public void GetLaps()
+        public async Task<Laps> GetLastRaceLaps(int season = 0, int race = 0, int limit = 2000)
         {
-            ergastApi.GetLaps();
+            string year = season == 0 ? "current" : season.ToString();
+            string raceNumber = race == 0 ? "last" : race.ToString();
+            
+
+            return await ergastApi.GetLapsAsync(year, raceNumber, limit);
+        }
+        public ErgastService(IErgastApi ergastApi)
+        {
+            this.ergastApi = ergastApi;
         }
 
-        public static ErgastService Instance => _instance ??= new ErgastService();
-        private ErgastService()
-        {
-            ergastApi = RestService.For<IErgastApi>("http://ergast.com/api/f1");
-        }
-
-        private static ErgastService _instance;
         readonly IErgastApi ergastApi;
-
     }
 }
