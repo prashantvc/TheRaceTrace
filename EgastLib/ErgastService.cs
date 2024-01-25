@@ -10,10 +10,10 @@ public class ErgastService(IErgastApi ergastApi)
         return await ergastApi.GetLapsAsync(year, raceNumber, limit);
     }
 
-    public async Task GetLapTimeAsync()
+    public async Task<IEnumerable<LapTime>> GetLapTimeAsync()
     {
         var racData = await GetRaceDataAsync();
-        racData.GetLapTimes();
+        return racData.GetLapTimes();
     }
 }
 

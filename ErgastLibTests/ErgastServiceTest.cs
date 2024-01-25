@@ -20,7 +20,10 @@ namespace ErgastLibTests
             apiMock.Setup(x => x.GetLapsAsync("current", "last", 2000)).ReturnsAsync(_testData!);
             
             var service = new ErgastService(apiMock.Object);
-            await service.GetLapTimeAsync();
+            var lapTimes = await service.GetLapTimeAsync();
+            
+            apiMock.Verify(x=>x.GetLapsAsync("current", "last", 2000), Times.Once);
+            Assert.AreEqual(1157, lapTimes.Count(), "Lap times count do not match");
         }
 
         async Task<RaceData?> GetTestDataAsync()

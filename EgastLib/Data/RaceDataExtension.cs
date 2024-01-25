@@ -6,7 +6,7 @@ public partial class RaceData
         return firstRace != null ? firstRace.Laps : Array.Empty<Lap>();
     }
 
-    public void GetLapTimes()
+    public IEnumerable<LapTime> GetLapTimes()
     {
         var laps = GetLaps();
         
@@ -14,5 +14,7 @@ public partial class RaceData
             lap => lap.Timings.Select(
                 timing => new LapTime(lap.Number,timing.DriverId, timing.Position,  timing.Time)
             ));
+
+        return lapTimes;
     }
 }
