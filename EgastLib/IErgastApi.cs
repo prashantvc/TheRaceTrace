@@ -11,7 +11,7 @@ public interface IErgastApi
     /// <param name="season">Season in years, default current</param>
     /// <param name="race">Race number, default last</param>
     /// <param name="limit">Number of laps</param>
-    /// <returns>Task of <see cref="Laps"/></returns>
+    /// <returns>Task of <see cref="RaceData"/></returns>
     [Get("/{season}/{race}/laps.json")]
-    Task<Laps> GetLapsAsync(string season, string race, [Query] int limit);
+    Task<RaceData> GetLapsAsync(string season, string race, [Query] int limit);
 }

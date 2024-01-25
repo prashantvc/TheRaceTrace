@@ -1,0 +1,1 @@
+public record LapTime(int LapNumber, string DriverId, int Position, string Time );

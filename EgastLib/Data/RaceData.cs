@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Globalization;
 
-public partial class Laps
+public partial class RaceData
 {
     [JsonPropertyName("MRData")]
     public MrData MrData { get; set; }
@@ -16,21 +16,24 @@ public partial class MrData
 
     [JsonPropertyName("total")]
     [JsonConverter(typeof(ParseStringConverter))]
-    public long TotalLaps { get; set; }
+    public int TotalLaps { get; set; }
 
     [JsonPropertyName("RaceTable")]
     public RaceTable RaceTable { get; set; }
+    
+    [JsonPropertyName("Drivers")]
+    public DriverTable DriverTable { get; set; }
 }
 
 public partial class RaceTable
 {
     [JsonPropertyName("season")]
     [JsonConverter(typeof(ParseStringConverter))]
-    public long Season { get; set; }
+    public int Season { get; set; }
 
     [JsonPropertyName("round")]
     [JsonConverter(typeof(ParseStringConverter))]
-    public long Round { get; set; }
+    public int Round { get; set; }
 
     [JsonPropertyName("Races")]
     public Race[] Races { get; set; }
@@ -81,10 +84,10 @@ public partial class Circuit
 public partial class Location
 {
     [JsonPropertyName("lat")]
-    public string Lat { get; set; }
+    public string Latitude { get; set; }
 
     [JsonPropertyName("long")]
-    public string Long { get; set; }
+    public string Longitude { get; set; }
 
     [JsonPropertyName("locality")]
     public string Locality { get; set; }
@@ -96,8 +99,8 @@ public partial class Location
 public partial class Lap
 {
     [JsonPropertyName("number")]
-
-    public string Number { get; set; }
+    [JsonConverter(typeof(ParseStringConverter))]
+    public int Number { get; set; }
 
     [JsonPropertyName("Timings")]
     public Timing[] Timings { get; set; }
@@ -109,58 +112,37 @@ public partial class Timing
     public string DriverId { get; set; }
 
     [JsonPropertyName("position")]
-    public string Position { get; set; }
+    [JsonConverter(typeof(ParseStringConverter))]
+    public int Position { get; set; }
 
     [JsonPropertyName("time")]
     public string Time { get; set; }
 }
 
-internal static class Converter
+internal class ParseStringConverter : JsonConverter<int>
 {
-    public static readonly JsonSerializerOptions Settings = new(JsonSerializerDefaults.General)
-    {
-        Converters =
-            {
-                new DateOnlyConverter(),
-                new TimeOnlyConverter(),
-                IsoDateTimeOffsetConverter.Singleton
-            },
-    };
-}
+    public override bool CanConvert(Type t) => t == typeof(int);
 
-internal class ParseStringConverter : JsonConverter<long>
-{
-    public override bool CanConvert(Type t) => t == typeof(long);
-
-    public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString();
-        long l;
-        if (long.TryParse(value, out l))
+        if (int.TryParse(value, out var l))
         {
             return l;
         }
-        throw new Exception("Cannot unmarshal type long");
+        throw new Exception("Cannot unmarshal type int");
     }
 
-    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(writer, value.ToString(), options);
-        return;
     }
-
-    public static readonly ParseStringConverter Singleton = new ParseStringConverter();
 }
 
-public class DateOnlyConverter : JsonConverter<DateOnly>
+public class DateOnlyConverter(string? serializationFormat) : JsonConverter<DateOnly>
 {
-    private readonly string serializationFormat;
+    private readonly string _serializationFormat = serializationFormat ?? "yyyy-MM-dd";
     public DateOnlyConverter() : this(null) { }
-
-    public DateOnlyConverter(string? serializationFormat)
-    {
-        this.serializationFormat = serializationFormat ?? "yyyy-MM-dd";
-    }
 
     public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -169,19 +151,14 @@ public class DateOnlyConverter : JsonConverter<DateOnly>
     }
 
     public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
-        => writer.WriteStringValue(value.ToString(serializationFormat));
+        => writer.WriteStringValue(value.ToString(_serializationFormat));
 }
 
-public class TimeOnlyConverter : JsonConverter<TimeOnly>
+public class TimeOnlyConverter(string? serializationFormat) : JsonConverter<TimeOnly>
 {
-    private readonly string serializationFormat;
+    private readonly string _serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
 
     public TimeOnlyConverter() : this(null) { }
-
-    public TimeOnlyConverter(string? serializationFormat)
-    {
-        this.serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
-    }
 
     public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -190,7 +167,7 @@ public class TimeOnlyConverter : JsonConverter<TimeOnly>
     }
 
     public override void Write(Utf8JsonWriter writer, TimeOnly value, JsonSerializerOptions options)
-        => writer.WriteStringValue(value.ToString(serializationFormat));
+        => writer.WriteStringValue(value.ToString(_serializationFormat));
 }
 
 internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
@@ -254,10 +231,10 @@ internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
         }
         else
         {
-            return default(DateTimeOffset);
+            return default;
         }
     }
 
 
-    public static readonly IsoDateTimeOffsetConverter Singleton = new IsoDateTimeOffsetConverter();
+    public static readonly IsoDateTimeOffsetConverter Singleton = new();
 }
