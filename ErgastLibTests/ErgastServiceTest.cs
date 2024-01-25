@@ -31,7 +31,7 @@ namespace ErgastLibTests
 
         async Task<Laps?> GetTestDataAsync()
         {
-            string data = await File.ReadAllTextAsync("TestData\\Laps.json");
+            string data = await File.ReadAllTextAsync(Path.Combine("TestData","Laps.json"));
             return JsonSerializer.Deserialize<Laps>(data);
         }
 
