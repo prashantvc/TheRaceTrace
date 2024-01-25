@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRaceTraceWpf", "TheRaceTraceWpf\TheRaceTraceWpf.csproj", "{9D1628C4-C748-4873-8E98-7079905167A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EgastLib", "EgastLib\EgastLib.csproj", "{992EDD74-322C-4FC8-B748-914527F8C2CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErgastLib", "EgastLib\ErgastLib.csproj", "{992EDD74-322C-4FC8-B748-914527F8C2CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{73FB7306-9E15-4D28-B27E-917E708F9A0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
