@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("7510147c-0d87-4d60-8805-d4129777962c")]
 
-[assembly:InternalsVisibleTo("EgastLibTests")]
+[assembly:InternalsVisibleTo("ErgastLibTests")]

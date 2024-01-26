@@ -2,13 +2,24 @@
 
 public class ErgastService(IErgastApi ergastApi)
 {
+    public async Task<RaceSummary> RaceOverviewAsync(int season = 0, int round = 0, int lapsLimit = 2000)
+    {
+        var laps = await GetLapTimeAsync(season, round, lapsLimit);
+        var drivers = await GetDriversAsync(season, round);
+        
+        var lapTimes = laps.GetLapTimes().GroupBy(l => l.DriverId)
+            .ToDictionary(g => g.Key, g => g.OrderBy(l => l.LapNumber))
+            .Select(p => new DriverLapTime(p.Key, drivers.FirstOrDefault(d => d.Id == p.Key), p.Value.ToList()));
+
+        var raceSummary = new RaceSummary(laps, lapTimes.ToList());
+        return raceSummary;
+    }
     
-    //TODO: Think of the way to cache response
-    public async Task<IEnumerable<LapTime>> GetLapTimeAsync(int season = 0, int round = 0, int limit = 2000)
+    public async Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0, int limit = 2000)
     {
         var raceParams = ParseRaceParameters(season, round);
         var racData = await ergastApi.GetLapsAsync(raceParams.season, raceParams.round, limit);
-        return racData.GetLapTimes();
+        return racData;
     }
     
     public async Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0)
