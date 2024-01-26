@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:TheRaceTraceWpf"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:ViewModelLocator x:Key="viewModelLocator" />
     </Application.Resources>
 </Application>

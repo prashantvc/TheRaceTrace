@@ -1,7 +1,19 @@
 ﻿namespace ErgastLib;
 
-public class ErgastService(IErgastApi ergastApi)
+public interface IErgastService { 
+    Task<RaceSummary> RaceOverviewAsync(int season = 0, int round = 0, int lapsLimit = 2000);
+    Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0, int limit = 2000);
+    Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0);
+    Task<List<Driver>> GetDriversAsync(int season = 0, int round = 0);
+}
+
+public class ErgastService: IErgastService
 {
+    public ErgastService(IErgastApi ergastApi)
+    {
+        this.ergastApi = ergastApi;
+    }
+
     public async Task<RaceSummary> RaceOverviewAsync(int season = 0, int round = 0, int lapsLimit = 2000)
     {
         var laps = await GetLapTimeAsync(season, round, lapsLimit);
@@ -67,5 +79,6 @@ public class ErgastService(IErgastApi ergastApi)
 
     const string CurrentSeason = "current";
     const string LastRound = "last";
+    private IErgastApi ergastApi;
 }
 
