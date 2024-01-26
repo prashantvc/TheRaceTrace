@@ -1,4 +1,5 @@
 ﻿using Refit;
+namespace ErgastLib;
 
 public interface IErgastApi
 {
@@ -17,7 +18,7 @@ public interface IErgastApi
 
     [Get("/{season}/{round}/constructors.json")]
     Task<RaceData> GetConstructorsAsync(string season, string round);
-    
+
     [Get("/{season}/{round}/constructors/{constructor}/drivers.json")]
     Task<RaceData> GetDriversAsync(string season, string round, string constructor);
 }

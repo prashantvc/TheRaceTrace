@@ -9,7 +9,7 @@ public class ErgastService(IErgastApi ergastApi)
         
         var lapTimes = laps.GetLapTimes().GroupBy(l => l.DriverId)
             .ToDictionary(g => g.Key, g => g.OrderBy(l => l.LapNumber))
-            .Select(p => new DriverLapTime(p.Key, drivers.FirstOrDefault(d => d.Id == p.Key), p.Value.ToList()));
+            .Select(p => new DriverLapTime(p.Key, drivers.FirstOrDefault(d => d.Id == p.Key), [.. p.Value]));
 
         var raceSummary = new RaceSummary(laps, lapTimes.ToList());
         return raceSummary;
@@ -53,7 +53,8 @@ public class ErgastService(IErgastApi ergastApi)
             }));
         });
         await Task.WhenAll(tasks);
-        return drivers.ToList();
+
+        return [.. drivers];
     }
 
     static (string season, string round) ParseRaceParameters(int season, int round)
