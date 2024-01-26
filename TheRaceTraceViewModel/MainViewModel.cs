@@ -15,12 +15,14 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? name;
 
+    public RaceSummary? RaceSummary { get; private set; }
+
     public IAsyncRelayCommand LoadConstructorsCommand { get; }
 
     async Task GetConstructorsAsync()
     {
-        var laps = await _ergastService.RaceOverviewAsync();
-        Debug.WriteLine(laps);
+        var summary = await _ergastService.RaceSummaryAsync();
+        RaceSummary = summary;
     }
 
     readonly IErgastService _ergastService;

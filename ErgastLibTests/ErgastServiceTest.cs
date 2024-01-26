@@ -83,7 +83,7 @@ namespace ErgastLibTests
                 .ReturnsAsync(driverData!);
             
             var service = new ErgastService(apiMock.Object);
-            var raceSummary = await service.RaceOverviewAsync();
+            var raceSummary = await service.RaceSummaryAsync();
             
             apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound, 2000), Times.Once);
             Assert.AreEqual(2023, raceSummary.Season, "Race season do not match");

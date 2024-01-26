@@ -1,11 +1,29 @@
-public class RaceSummary(RaceData raceData, List<DriverLapTime> driverLapTimes)
+public class RaceSummary
 {
-    public int Season => raceData.Season;
-    public int Round => raceData.Round;
-    public string RaceName => raceData.RaceName;
-    public string Date => raceData.RaceDate;
-    
-    public List<DriverLapTime> DriverLapTimes { get; } = driverLapTimes;
+    public RaceSummary(RaceData raceData, List<DriverLapTime> driverLapTimes)
+    {
+        Season = raceData.Season;
+        Round = raceData.Round;
+        RaceName = raceData.RaceName;
+        Date = raceData.RaceDate;
+        DriverLapTimes = driverLapTimes;
+    }
+
+    public RaceSummary(int season, int round, string raceName, string date, List<DriverLapTime> driverLapTimes)
+    {
+        Season = season;        
+        Round = round;
+        RaceName = raceName;
+        Date = date;
+        DriverLapTimes = driverLapTimes;
+    }
+
+    public int Season { get; private set; }
+    public int Round { get; private set; }
+    public string RaceName { get; private set; }
+    public string Date { get; private set; }
+
+    public List<DriverLapTime> DriverLapTimes { get; private set; }
 
     public override string ToString()
     {
@@ -13,4 +31,4 @@ public class RaceSummary(RaceData raceData, List<DriverLapTime> driverLapTimes)
     }
 }
 
-public record DriverLapTime (string Id, Driver? Driver, List<LapTime> LapTimes);
+public record DriverLapTime(string Id, Driver? Driver, List<LapTime> LapTimes);
