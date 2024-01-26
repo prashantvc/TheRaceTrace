@@ -20,7 +20,7 @@ public partial class DriverTable
 public partial class Driver
 {
     [JsonPropertyName("driverId")]
-    public string DriverId { get; set; }
+    public string Id { get; set; }
 
     [JsonPropertyName("permanentNumber")]
     [JsonConverter(typeof(ParseStringConverter))]
@@ -43,4 +43,12 @@ public partial class Driver
 
     [JsonPropertyName("nationality")]
     public string Nationality { get; set; }
+
+    public Constructor Constructor { get; set; }
+    public string FullName => $"{GivenName} {FamilyName}";
+    
+    public override string ToString()
+    {
+        return $"#: {PermanentNumber}, Name: {Code}, Team: {Constructor.Name}";
+    }
 }

@@ -21,6 +21,10 @@
     <Content Include="TestData\Constructors.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Remove="TestData\Drivers.json" />
+    <Content Include="TestData\Drivers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -22,4 +22,9 @@ public partial class RaceData
     {
         return MrData.ConstructorTable.Constructors;
     }
+
+    internal IEnumerable<Driver> GetDrivers()
+    {
+        return MrData.DriverTable.Drivers;
+    }
 }

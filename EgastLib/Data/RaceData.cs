@@ -20,7 +20,7 @@ public partial class MrData
     [JsonPropertyName("RaceTable")]
     public RaceTable RaceTable { get; set; }
     
-    [JsonPropertyName("Drivers")]
+    [JsonPropertyName("DriverTable")]
     public DriverTable DriverTable { get; set; }
     
     [JsonPropertyName("ConstructorTable")]

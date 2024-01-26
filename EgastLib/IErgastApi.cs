@@ -12,12 +12,12 @@ public interface IErgastApi
     /// <param name="round">Race number, default last</param>
     /// <param name="limit">Number of laps</param>
     /// <returns>Task of <see cref="RaceData"/></returns>
-    [Get("/{season}/{race}/laps.json")]
+    [Get("/{season}/{round}/laps.json")]
     Task<RaceData> GetLapsAsync(string season, string round, [Query] int limit);
 
-    [Get("/{season}/{race}/constructors.json")]
+    [Get("/{season}/{round}/constructors.json")]
     Task<RaceData> GetConstructorsAsync(string season, string round);
     
-    [Get("/{season}/{race}/constructors/{constructor}/drivers.json")]
-    Task<RaceData> GetDriversAsync(string season, string round);
+    [Get("/{season}/{round}/constructors/{constructor}/drivers.json")]
+    Task<RaceData> GetDriversAsync(string season, string round, string constructor);
 }
