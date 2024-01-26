@@ -12,7 +12,7 @@ public partial class RaceData
         
         var lapTimes = laps.SelectMany(
             lap => lap.Timings.Select(
-                timing => new LapTime(lap.Number,timing.DriverId, timing.Position,  timing.Time)
+                timing => new LapTime(lap.Number, timing.DriverId, timing.Position, timing.Time)
             ));
 
         return lapTimes;

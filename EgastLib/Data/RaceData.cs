@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Globalization;
 
 public partial class RaceData
 {
@@ -118,7 +118,28 @@ public partial class Timing
     public int Position { get; set; }
 
     [JsonPropertyName("time")]
-    public string Time { get; set; }
+    [JsonConverter(typeof(ParseTimeConverter))]
+    public double Time { get; set; }
+}
+
+internal class ParseTimeConverter : JsonConverter<double>
+{
+    public override double Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString();
+        var result = TimeSpan.TryParseExact(value, @"m\:ss\.fff", CultureInfo.InvariantCulture, 
+            out var timeSpan);
+
+        if (result)
+            return timeSpan.TotalSeconds;
+        
+        throw new Exception($"Cannot parse {value} to TimeSpan");
+    }
+
+    public override void Write(Utf8JsonWriter writer, double value, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class ParseStringConverter : JsonConverter<int>
@@ -137,106 +158,6 @@ internal class ParseStringConverter : JsonConverter<int>
 
     public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value.ToString(), options);
+        throw new NotImplementedException();
     }
-}
-
-public class DateOnlyConverter(string? serializationFormat) : JsonConverter<DateOnly>
-{
-    private readonly string _serializationFormat = serializationFormat ?? "yyyy-MM-dd";
-    public DateOnlyConverter() : this(null) { }
-
-    public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        return DateOnly.Parse(value!);
-    }
-
-    public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
-        => writer.WriteStringValue(value.ToString(_serializationFormat));
-}
-
-public class TimeOnlyConverter(string? serializationFormat) : JsonConverter<TimeOnly>
-{
-    private readonly string _serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
-
-    public TimeOnlyConverter() : this(null) { }
-
-    public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        return TimeOnly.Parse(value!);
-    }
-
-    public override void Write(Utf8JsonWriter writer, TimeOnly value, JsonSerializerOptions options)
-        => writer.WriteStringValue(value.ToString(_serializationFormat));
-}
-
-internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
-{
-    public override bool CanConvert(Type t) => t == typeof(DateTimeOffset);
-
-    private const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
-
-    private DateTimeStyles _dateTimeStyles = DateTimeStyles.RoundtripKind;
-    private string? _dateTimeFormat;
-    private CultureInfo? _culture;
-
-    public DateTimeStyles DateTimeStyles
-    {
-        get => _dateTimeStyles;
-        set => _dateTimeStyles = value;
-    }
-
-    public string? DateTimeFormat
-    {
-        get => _dateTimeFormat ?? string.Empty;
-        set => _dateTimeFormat = (string.IsNullOrEmpty(value)) ? null : value;
-    }
-
-    public CultureInfo Culture
-    {
-        get => _culture ?? CultureInfo.CurrentCulture;
-        set => _culture = value;
-    }
-
-    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
-    {
-        string text;
-
-
-        if ((_dateTimeStyles & DateTimeStyles.AdjustToUniversal) == DateTimeStyles.AdjustToUniversal
-            || (_dateTimeStyles & DateTimeStyles.AssumeUniversal) == DateTimeStyles.AssumeUniversal)
-        {
-            value = value.ToUniversalTime();
-        }
-
-        text = value.ToString(_dateTimeFormat ?? DefaultDateTimeFormat, Culture);
-
-        writer.WriteStringValue(text);
-    }
-
-    public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        string? dateText = reader.GetString();
-
-        if (string.IsNullOrEmpty(dateText) == false)
-        {
-            if (!string.IsNullOrEmpty(_dateTimeFormat))
-            {
-                return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, _dateTimeStyles);
-            }
-            else
-            {
-                return DateTimeOffset.Parse(dateText, Culture, _dateTimeStyles);
-            }
-        }
-        else
-        {
-            return default;
-        }
-    }
-
-
-    public static readonly IsoDateTimeOffsetConverter Singleton = new();
 }
