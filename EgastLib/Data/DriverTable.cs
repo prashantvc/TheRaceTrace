@@ -12,6 +12,9 @@ public partial class DriverTable
 
     [JsonPropertyName("Drivers")]
     public Driver[] Drivers { get; set; }
+    
+    [JsonPropertyName("constructorId")]
+    public string ConstructorId { get; set; }
 }
 
 public partial class Driver

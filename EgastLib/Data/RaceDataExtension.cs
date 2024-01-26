@@ -1,12 +1,12 @@
 public partial class RaceData
 {
-    public IEnumerable<Lap> GetLaps()
+    IEnumerable<Lap> GetLaps()
     {
         var firstRace = MrData.RaceTable.Races.FirstOrDefault();
         return firstRace != null ? firstRace.Laps : Array.Empty<Lap>();
     }
 
-    public IEnumerable<LapTime> GetLapTimes()
+    internal IEnumerable<LapTime> GetLapTimes()
     {
         var laps = GetLaps();
         
@@ -16,5 +16,10 @@ public partial class RaceData
             ));
 
         return lapTimes;
+    }
+
+    internal IEnumerable<Constructor> GetConstructors()
+    {
+        return MrData.ConstructorTable.Constructors;
     }
 }

@@ -10,7 +10,6 @@ public partial class RaceData
 
 public partial class MrData
 {
-
     [JsonPropertyName("url")]
     public Uri Url { get; set; }
 
@@ -23,6 +22,9 @@ public partial class MrData
     
     [JsonPropertyName("Drivers")]
     public DriverTable DriverTable { get; set; }
+    
+    [JsonPropertyName("ConstructorTable")]
+    public ConstructorTable ConstructorTable { get; set; }
 }
 
 public partial class RaceTable
