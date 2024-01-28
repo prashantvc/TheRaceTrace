@@ -4,9 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:oxy="http://oxyplot.org/wpf"
         DataContext="{Binding MainViewModel, Source={StaticResource viewModelLocator}}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Load Constructors" Command="{Binding LoadConstructorsCommand}" Margin="111,36,521,328" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Content="Load Constructors" Command="{Binding LoadConstructorsCommand}" Margin="8" Grid.Row="0" />
+        <oxy:PlotView Grid.Row="1" Model="{Binding PlotModel}">
+        </oxy:PlotView>
     </Grid>
 </Window>
