@@ -40,9 +40,10 @@ public partial class MainViewModel : ObservableObject
         var drs = data.GroupBy(p => p.Driver);
         var tl = drs.Select(g => new LineSeries
         {
-            Title = $"{g.Key.PermanentNumber:D2} - {g.Key.Code}",
+            Title = $"{g.Key.PermanentNumber:D2} {g.Key.Code}",
             ItemsSource = g.OrderBy(p => p.Lap).Select(p => new DataPoint(p.Lap, p.Time)),
-
+            TrackerFormatString = "{0} \nLap: {2:0} Time: {4:F3}",
+            CanTrackerInterpolatePoints = false,
         });
 
         InitialisePlotModel();
