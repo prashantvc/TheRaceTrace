@@ -1,24 +1,25 @@
 ﻿namespace ErgastLib;
 
-public interface IErgastService { 
-    Task<RaceSummary> RaceSummaryAsync(int season = 0, int round = 0, int lapsLimit = 2000);
-    Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0, int limit = 2000);
+public interface IErgastService
+{
+    Task<RaceSummary> RaceSummaryAsync(int season = 0, int round = 0);
+    Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0);
     Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0);
     Task<List<Driver>> GetDriversAsync(int season = 0, int round = 0);
 }
 
-public class ErgastService: IErgastService
+public class ErgastService : IErgastService
 {
     public ErgastService(IErgastApi ergastApi)
     {
         this.ergastApi = ergastApi;
     }
 
-    public async Task<RaceSummary> RaceSummaryAsync(int season = 0, int round = 0, int lapsLimit = 2000)
+    public async Task<RaceSummary> RaceSummaryAsync(int season = 0, int round = 0)
     {
-        var laps = await GetLapTimeAsync(season, round, lapsLimit);
+        var laps = await GetLapTimeAsync(season, round);
         var drivers = await GetDriversAsync(season, round);
-        
+
         var lapTimes = laps.GetLapTimes().GroupBy(l => l.DriverId)
             .ToDictionary(g => g.Key, g => g.OrderBy(l => l.LapNumber))
             .Select(p => new DriverLapTime(p.Key, drivers.FirstOrDefault(d => d.Id == p.Key), [.. p.Value]));
@@ -26,14 +27,14 @@ public class ErgastService: IErgastService
         var raceSummary = new RaceSummary(laps, lapTimes.ToList());
         return raceSummary;
     }
-    
-    public async Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0, int limit = 2000)
+
+    public async Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0)
     {
         var raceParams = ParseRaceParameters(season, round);
-        var racData = await ergastApi.GetLapsAsync(raceParams.season, raceParams.round, limit);
+        var racData = await ergastApi.GetLapsAsync(raceParams.season, raceParams.round);
         return racData;
     }
-    
+
     public async Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0)
     {
         var raceParams = ParseRaceParameters(season, round);
@@ -56,7 +57,7 @@ public class ErgastService: IErgastService
                 var raceData = await ergastApi.GetDriversAsync(raceParams.season, raceParams.round, ctr.Id);
                 lock (drivers)
                 {
-                    foreach (var drv in raceData.GetDrivers())     
+                    foreach (var drv in raceData.GetDrivers())
                     {
                         drv.Constructor = ctr;
                         drivers.Add(drv);

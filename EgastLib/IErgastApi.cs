@@ -11,10 +11,9 @@ public interface IErgastApi
     /// </summary>
     /// <param name="season">Season in years, default current</param>
     /// <param name="round">Race number, default last</param>
-    /// <param name="limit">Number of laps</param>
     /// <returns>Task of <see cref="RaceData"/></returns>
-    [Get("/{season}/{round}/laps.json")]
-    Task<RaceData> GetLapsAsync(string season, string round, [Query] int limit);
+    [Get("/{season}/{round}/laps.json?limit=2000")]
+    Task<RaceData> GetLapsAsync(string season, string round);
 
     [Get("/{season}/{round}/constructors.json")]
     Task<RaceData> GetConstructorsAsync(string season, string round);

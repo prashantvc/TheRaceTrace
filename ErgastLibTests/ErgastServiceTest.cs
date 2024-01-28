@@ -1,8 +1,6 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using ErgastLib;
 using Moq;
-using Refit;
 
 namespace ErgastLibTests
 {
@@ -54,13 +52,13 @@ namespace ErgastLibTests
         {
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
-            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound, 2000))
+            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound))
                 .ReturnsAsync(testLapData!);
             
             var service = new ErgastService(apiMock.Object);
             var lapTimes = await service.GetLapTimeAsync();
             
-            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound, 2000), Times.Once);
+            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound), Times.Once);
             Assert.AreEqual(1157, lapTimes.GetLapTimes().Count(), "Lap times count do not match");
         }
 
@@ -70,7 +68,7 @@ namespace ErgastLibTests
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
             
-            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound, 2000))
+            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound))
                 .ReturnsAsync(testLapData!);
             
             var constructors = await ParseTestDataAsync("Constructors.json");
@@ -85,7 +83,7 @@ namespace ErgastLibTests
             var service = new ErgastService(apiMock.Object);
             var raceSummary = await service.RaceSummaryAsync();
             
-            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound, 2000), Times.Once);
+            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound), Times.Once);
             Assert.AreEqual(2023, raceSummary.Season, "Race season do not match");
             Assert.AreEqual(22, raceSummary.Round, "round do not match");
         }

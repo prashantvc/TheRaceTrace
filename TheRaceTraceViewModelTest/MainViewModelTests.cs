@@ -11,13 +11,13 @@ namespace TheRaceTraceViewModelTest
         public async Task LoadRaceSummary()
         {
             var serviceMock = new Mock<IErgastService>();
-            serviceMock.Setup(s => s.RaceSummaryAsync(0, 0, 2000))
+            serviceMock.Setup(s => s.RaceSummaryAsync(0, 0))
                 .ReturnsAsync(await ParseTestRaceSummaryDataAsync());
             var vm = new MainViewModel(serviceMock.Object);
 
             vm.LoadConstructorsCommand.Execute(null);
 
-            serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(0, 0, 2000), Times.Once());
+            serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(0, 0), Times.Once());
             Assert.IsNotNull(vm.RaceSummary);
         }
 
