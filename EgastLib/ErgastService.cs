@@ -48,6 +48,7 @@ public class ErgastService : IErgastService
         var constructors = await GetConstructorsAsync(season, round);
         var raceParams = ParseRaceParameters(season, round);
 
+        //TODO: Some times fails with task exception
         var tasks = new List<Task>();
         var drivers = new List<Driver>();
         Parallel.ForEach(constructors, ctr =>

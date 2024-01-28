@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OxyPlot.Axes;
+using OxyPlot.Legends;
+using OxyPlot;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +23,7 @@ namespace TheRaceTraceWpf
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = App.Current.Services.GetService<MainViewModel>();
+
         }
     }
 }

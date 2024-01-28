@@ -2,7 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using ErgastLib;
 using OxyPlot;
+using OxyPlot.Annotations;
+using OxyPlot.Axes;
+using OxyPlot.Legends;
 using OxyPlot.Series;
+using OxyPlot.Wpf;
 using System.Diagnostics;
 
 public partial class MainViewModel : ObservableObject
@@ -25,7 +29,7 @@ public partial class MainViewModel : ObservableObject
 
     async Task GetConstructorsAsync()
     {
-        var summary = await _ergastService.RaceSummaryAsync(2019, 6);
+        var summary = await _ergastService.RaceSummaryAsync(2023, 1);
         RaceSummary = summary;
 
         var series = _raceTrace.CreateTraces(summary.DriverLapTimes);
@@ -36,12 +40,13 @@ public partial class MainViewModel : ObservableObject
         var drs = data.GroupBy(p => p.Driver);
         var tl = drs.Select(g => new LineSeries
         {
-            Title = $"{g.Key.PermanentNumber} - {g.Key.Code}",
+            Title = $"{g.Key.PermanentNumber:D2} - {g.Key.Code}",
             ItemsSource = g.OrderBy(p => p.Lap).Select(p => new DataPoint(p.Lap, p.Time)),
 
         });
 
-        PlotModel = new() { Title = "Race Trace" };
+        InitialisePlotModel();
+
         foreach (var item in tl)
         {
             PlotModel.Series.Add(item);
@@ -50,10 +55,37 @@ public partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(PlotModel));
     }
 
-    public PlotModel PlotModel { get; private set; } = new();
+    void InitialisePlotModel()
+    {
+        PlotModel = new();
+
+        PlotModel.Legends.Add(new Legend
+        {
+            LegendPosition = LegendPosition.RightTop,
+            LegendPlacement = LegendPlacement.Outside,
+        });
+
+        PlotModel.Axes.Add(new LinearAxis
+        {
+            Position = AxisPosition.Bottom,
+            MajorStep = 5,
+            MinorStep = 1,
+            Title = "Laps",
+        });
+
+        PlotModel.Annotations.Add(new LineAnnotation
+        {
+            Type = LineAnnotationType.Horizontal,
+            Y = 0,
+            Color = OxyColors.Black,
+        });
+    }
 
 
+    public PlotModel PlotModel { get; private set; }
 
     readonly IErgastService _ergastService;
     readonly RaceTrace _raceTrace;
+
+
 }
