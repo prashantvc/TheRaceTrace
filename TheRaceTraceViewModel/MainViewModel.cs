@@ -25,7 +25,7 @@ public partial class MainViewModel : ObservableObject
 
     async Task GetConstructorsAsync()
     {
-        var summary = await _ergastService.RaceSummaryAsync();
+        var summary = await _ergastService.RaceSummaryAsync(2019, 6);
         RaceSummary = summary;
 
         var series = _raceTrace.CreateTraces(summary.DriverLapTimes);
@@ -33,8 +33,8 @@ public partial class MainViewModel : ObservableObject
 
         var data = series.SelectMany(p => p.DataPoint.Select(dp => new { p.Driver, dp.Lap, dp.Time }));
 
-
-        var tl = data.GroupBy(p => p.Driver).Select(g => new LineSeries
+        var drs = data.GroupBy(p => p.Driver);
+        var tl = drs.Select(g => new LineSeries
         {
             Title = $"{g.Key.PermanentNumber} - {g.Key.Code}",
             ItemsSource = g.OrderBy(p => p.Lap).Select(p => new DataPoint(p.Lap, p.Time)),
