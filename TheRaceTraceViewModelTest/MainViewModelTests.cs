@@ -15,7 +15,7 @@ namespace TheRaceTraceViewModelTest
                 .ReturnsAsync(await ParseTestRaceSummaryDataAsync());
             var vm = new MainViewModel(serviceMock.Object);
 
-            vm.LoadConstructorsCommand.Execute(null);
+            vm.LoadRaceDataCommand.Execute(null);
 
             serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(0, 0), Times.Once());
         }

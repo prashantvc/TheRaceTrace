@@ -47,7 +47,8 @@ public partial class Race
     public string Season { get; set; }
 
     [JsonPropertyName("round")]
-    public string Round { get; set; }
+    [JsonConverter(typeof(ParseStringConverter))]
+    public int Round { get; set; }
 
     [JsonPropertyName("url")]
     public Uri Url { get; set; }
@@ -66,6 +67,11 @@ public partial class Race
 
     [JsonPropertyName("Laps")]
     public Lap[] Laps { get; set; }
+
+    override public string ToString()
+    {
+        return $"{Round} - {RaceName}";
+    }
 }
 
 public partial class Circuit

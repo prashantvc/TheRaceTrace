@@ -20,13 +20,24 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                 <Label Content="_Season" Margin="8"/>
-                <ComboBox ItemsSource="{Binding Seasons}" TabIndex="0" Margin="8" Width="100" SelectedItem="{Binding SelectedSeason}"/>
+                <ComboBox ItemsSource="{Binding Seasons}" 
+                          SelectionChanged="Season_SelectionChanged"
+                          TabIndex="0" 
+                          Margin="8" 
+                          Width="250" 
+                          SelectedItem="{Binding SelectedSeason}" />
+
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
                 <Label Content="Round" Margin="8" />
-                <ComboBox  Margin="8" Width="100" TabIndex="1" SelectedIndex="0"/>
+                <ComboBox  Margin="8" Width="250" 
+                           TabIndex="1" 
+                           SelectedIndex="0" 
+                           ItemsSource="{Binding RaceList}" 
+                           SelectedItem="{Binding SelectedRace}"
+                          />
             </StackPanel>
-            <Button Content="Load Trace" Command="{Binding LoadConstructorsCommand}" TabIndex="2" Margin="8" Grid.Row="0" Grid.Column="2" />
+            <Button Content="Load Race Trace" Command="{Binding LoadRaceDataCommand}" TabIndex="2" Margin="8" Grid.Row="0" Grid.Column="2" />
         </Grid>
         <oxy:PlotView x:Name="plotView" Background="LightGray" Grid.Row="1" Model="{Binding PlotModel}">
 

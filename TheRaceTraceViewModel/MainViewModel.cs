@@ -15,20 +15,33 @@ public partial class MainViewModel : ObservableObject
         _ergastService = ergastService;
         _raceTrace = new RaceTrace();
         selectedSeason = Seasons.First();
-
-        LoadConstructorsCommand = new AsyncRelayCommand(GetConstructorsAsync);
     }
 
     [ObservableProperty]
-    private int selectedSeason;
+    int selectedSeason;
     public IReadOnlyList<int> Seasons => GetSeasons();
 
 
-    public IAsyncRelayCommand LoadConstructorsCommand { get; }
+    [ObservableProperty]
+    Race selectedRace;
 
-    async Task GetConstructorsAsync()
+    [ObservableProperty]
+    IEnumerable<Race> raceList;
+
+    [RelayCommand]
+    async Task LoadRaceList()
     {
-        var summary = await _ergastService.RaceSummaryAsync(2023, 1);
+        var rl = await _ergastService.RaceListAsync(SelectedSeason);
+        RaceList = rl.OrderByDescending(p => p.Round);
+        OnPropertyChanged(nameof(RaceList));
+
+        SelectedRace = RaceList.First();
+    }
+
+    [RelayCommand]
+    async Task LoadRaceData()
+    {
+        var summary = await _ergastService.RaceSummaryAsync(SelectedSeason, SelectedRace.Round);
 
         var series = _raceTrace.CreateTraces(summary.DriverLapTimes);
         Debug.WriteLine(series.Count);

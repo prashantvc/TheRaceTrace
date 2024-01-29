@@ -20,4 +20,7 @@ public interface IErgastApi
 
     [Get("/{season}/{round}/constructors/{constructor}/drivers.json")]
     Task<RaceData> GetDriversAsync(string season, string round, string constructor);
+
+    [Get("/{season}.json")]
+    Task<RaceData> GetRaceListAsync(string season);
 }

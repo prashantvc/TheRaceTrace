@@ -1,4 +1,6 @@
-﻿namespace ErgastLib;
+﻿using System.Text;
+
+namespace ErgastLib;
 
 public interface IErgastService
 {
@@ -6,13 +8,14 @@ public interface IErgastService
     Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0);
     Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0);
     Task<List<Driver>> GetDriversAsync(int season = 0, int round = 0);
+    Task<IEnumerable<Race>> RaceListAsync(int selectedSeason);
 }
 
 public class ErgastService : IErgastService
 {
     public ErgastService(IErgastApi ergastApi)
     {
-        this.ergastApi = ergastApi;
+        this._ergastApi = ergastApi;
     }
 
     public async Task<RaceSummary> RaceSummaryAsync(int season = 0, int round = 0)
@@ -31,14 +34,14 @@ public class ErgastService : IErgastService
     public async Task<RaceData> GetLapTimeAsync(int season = 0, int round = 0)
     {
         var raceParams = ParseRaceParameters(season, round);
-        var racData = await ergastApi.GetLapsAsync(raceParams.season, raceParams.round);
+        var racData = await _ergastApi.GetLapsAsync(raceParams.season, raceParams.round);
         return racData;
     }
 
     public async Task<IEnumerable<Constructor>> GetConstructorsAsync(int season = 0, int round = 0)
     {
         var raceParams = ParseRaceParameters(season, round);
-        var raceData = await ergastApi.GetConstructorsAsync(raceParams.season, raceParams.round);
+        var raceData = await _ergastApi.GetConstructorsAsync(raceParams.season, raceParams.round);
 
         return raceData.GetConstructors();
     }
@@ -55,7 +58,7 @@ public class ErgastService : IErgastService
         {
             tasks.Add(Task.Run(async () =>
             {
-                var raceData = await ergastApi.GetDriversAsync(raceParams.season, raceParams.round, ctr.Id);
+                var raceData = await _ergastApi.GetDriversAsync(raceParams.season, raceParams.round, ctr.Id);
                 lock (drivers)
                 {
                     foreach (var drv in raceData.GetDrivers())
@@ -71,7 +74,7 @@ public class ErgastService : IErgastService
         return [.. drivers];
     }
 
-    static (string season, string round) ParseRaceParameters(int season, int round)
+    static (string season, string round) ParseRaceParameters(int season, int round = 0)
     {
         string localSeason = season == 0 ? CurrentSeason : season.ToString();
         string localRound = round == 0 ? LastRound : round.ToString();
@@ -79,8 +82,15 @@ public class ErgastService : IErgastService
         return (localSeason, localRound);
     }
 
+    public async Task<IEnumerable<Race>> RaceListAsync(int selectedSeason)
+    {
+        var raceParams = ParseRaceParameters(selectedSeason);
+        var data = await _ergastApi.GetRaceListAsync(raceParams.season);
+        return data.GetRaces();
+    }
+
     const string CurrentSeason = "current";
     const string LastRound = "last";
-    private IErgastApi ergastApi;
+    IErgastApi _ergastApi;
 }
 

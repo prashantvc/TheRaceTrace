@@ -23,6 +23,11 @@ public partial class RaceData
         return lapTimes;
     }
 
+    internal IEnumerable<Race> GetRaces()
+    {
+        return MrData.RaceTable.Races;
+    }
+
     internal IEnumerable<Constructor> GetConstructors()
     {
         return MrData.ConstructorTable.Constructors;

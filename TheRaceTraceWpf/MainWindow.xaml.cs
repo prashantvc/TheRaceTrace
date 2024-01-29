@@ -12,5 +12,11 @@ namespace TheRaceTraceWpf
             InitializeComponent();
 
         }
+
+        void Season_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var vm = DataContext as MainViewModel;
+            vm?.LoadRaceListCommand.Execute(null);
+        }
     }
 }
