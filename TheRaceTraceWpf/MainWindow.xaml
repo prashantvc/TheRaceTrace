@@ -6,38 +6,40 @@
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf"
         DataContext="{Binding MainViewModel, Source={StaticResource viewModelLocator}}"
-        Title="{Binding SelectedRace, StringFormat=Race Trace: Round \{0\}}" Height="768" Width="1024">
+        Title="{Binding SelectedRace, StringFormat=Race Trace: Race #\{0\}}" Height="720" Width="1280">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" HorizontalAlignment="Left" MinHeight="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                <Label Content="_Season" Margin="8"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="8,0,0,0">
+                <Label Content="_Season"  VerticalAlignment="Center" Target="{Binding ElementName=cmbSeasons}"/>
                 <ComboBox ItemsSource="{Binding Seasons}" 
+                          Name="cmbSeasons"
                           SelectionChanged="Season_SelectionChanged"
                           TabIndex="0" 
-                          Margin="8" 
-                          Width="250" 
-                          SelectedItem="{Binding SelectedSeason}" />
+                         
+                          Width="240" 
+                          SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center" />
 
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                <Label Content="Round" Margin="8" />
-                <ComboBox  Margin="8" Width="250" 
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="8,0,0,0">
+                <Label Content="_Race"  VerticalAlignment="Center" Target="{Binding ElementName=cmbRace}" />
+                <ComboBox   Width="240" 
                            TabIndex="1" 
+                            Name="cmbRace"
                            SelectedIndex="0" 
                            ItemsSource="{Binding RaceList}" 
-                           SelectedItem="{Binding SelectedRace}"
+                           SelectedItem="{Binding SelectedRace}" VerticalAlignment="Center"
                           />
             </StackPanel>
-            <Button Content="Load Race Trace" Command="{Binding LoadRaceDataCommand}" TabIndex="2" Margin="8" Grid.Row="0" Grid.Column="2" />
+            <Button Content="Load Race _Trace" Command="{Binding LoadRaceDataCommand}" Width="200" TabIndex="2"  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
         </Grid>
         <oxy:PlotView x:Name="plotView" Background="LightGray" Grid.Row="1" Model="{Binding PlotModel}">
 

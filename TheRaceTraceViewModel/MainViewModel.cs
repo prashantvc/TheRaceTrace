@@ -63,7 +63,6 @@ public partial class MainViewModel : ObservableObject
         {
             PlotModel.Series.Add(item);
         }
-
         OnPropertyChanged(nameof(PlotModel));
     }
 
