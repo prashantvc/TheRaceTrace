@@ -18,7 +18,6 @@ namespace TheRaceTraceViewModelTest
             vm.LoadConstructorsCommand.Execute(null);
 
             serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(0, 0), Times.Once());
-            Assert.IsNotNull(vm.RaceSummary);
         }
 
         static async Task<RaceSummary?> ParseTestRaceSummaryDataAsync()

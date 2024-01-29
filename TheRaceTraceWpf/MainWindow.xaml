@@ -12,7 +12,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button Content="Load Constructors" Command="{Binding LoadConstructorsCommand}" Margin="8" Grid.Row="0" />
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                <Label Content="_Season" Margin="8"/>
+                <ComboBox ItemsSource="{Binding Seasons}" TabIndex="0" Margin="8" Width="100" SelectedItem="{Binding SelectedSeason}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                <Label Content="Round" Margin="8" />
+                <ComboBox  Margin="8" Width="100" TabIndex="1" SelectedIndex="0"/>
+            </StackPanel>
+            <Button Content="Load Trace" Command="{Binding LoadConstructorsCommand}" TabIndex="2" Margin="8" Grid.Row="0" Grid.Column="2" />
+        </Grid>
         <oxy:PlotView x:Name="plotView" Background="LightGray" Grid.Row="1" Model="{Binding PlotModel}">
 
         </oxy:PlotView>

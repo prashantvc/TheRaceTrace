@@ -6,31 +6,29 @@ using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
-using OxyPlot.Wpf;
 using System.Diagnostics;
 
 public partial class MainViewModel : ObservableObject
 {
-
     public MainViewModel(IErgastService ergastService)
     {
         _ergastService = ergastService;
         _raceTrace = new RaceTrace();
+        selectedSeason = Seasons.First();
 
         LoadConstructorsCommand = new AsyncRelayCommand(GetConstructorsAsync);
     }
 
     [ObservableProperty]
-    private string? name;
+    private int selectedSeason;
+    public IReadOnlyList<int> Seasons => GetSeasons();
 
-    public RaceSummary? RaceSummary { get; private set; }
 
     public IAsyncRelayCommand LoadConstructorsCommand { get; }
 
     async Task GetConstructorsAsync()
     {
         var summary = await _ergastService.RaceSummaryAsync(2023, 1);
-        RaceSummary = summary;
 
         var series = _raceTrace.CreateTraces(summary.DriverLapTimes);
         Debug.WriteLine(series.Count);
@@ -82,11 +80,15 @@ public partial class MainViewModel : ObservableObject
         });
     }
 
+    static IReadOnlyList<int> GetSeasons()
+    {
+        int startYear = 1996; //Ergast started traking lap times in 1996
+        return Enumerable.Range(startYear, DateTime.Now.Year - startYear)
+            .OrderByDescending(p => p).ToList();
+    }
 
     public PlotModel PlotModel { get; private set; }
 
     readonly IErgastService _ergastService;
     readonly RaceTrace _raceTrace;
-
-
 }
