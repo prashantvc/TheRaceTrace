@@ -1,7 +1,20 @@
-﻿record LapSeries(Driver? Driver, List<(int Lap, double Time)> DataPoint);
+﻿/// <summary>
+/// Represents a series of lap data for a driver.
+/// </summary>
+/// <param name="Driver">The driver of the lap series.</param>
+/// <param name="DataPoint">A list of tuples representing lap number and time.</param>
+record LapSeries(Driver? Driver, List<(int Lap, double Time)> DataPoint);
 
+/// <summary>
+/// Provides methods to create race traces.
+/// </summary>
 class RaceTrace
 {
+    /// <summary>
+    /// Creates a list of lap series for each driver.
+    /// </summary>
+    /// <param name="driverLapTimes">A list of lap times for each driver.</param>
+    /// <returns>A list of lap series for each driver.</returns>
     internal List<LapSeries> CreateTraces(List<DriverLapTime> driverLapTimes)
     {
         var result = driverLapTimes
@@ -15,7 +28,6 @@ class RaceTrace
         var series = result.Select(p => CreateTrace(p, referenceRaceTime)).ToList();
         return series;
     }
-
     static LapSeries CreateTrace(DriverLapTime driverLapTime, List<double> referenceRaceTime)
     {
         var lapCount = driverLapTime.LapTimes.Count;

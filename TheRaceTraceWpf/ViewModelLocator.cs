@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace TheRaceTraceWpf
+class ViewModelLocator
 {
-    internal class ViewModelLocator
-    {
-        public MainViewModel MainViewModel => App.Current.Services.GetService<MainViewModel>();
-    }
+    public MainViewModel MainViewModel => App.Current.Services.GetService<MainViewModel>();
 }

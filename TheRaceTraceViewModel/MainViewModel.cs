@@ -97,7 +97,7 @@ public partial class MainViewModel : ObservableObject
 
     static string DriverDisplayTitle(Driver driver)
     {
-        string pn = driver.PermanentNumber == 0 ? string.Empty : $"{ driver.PermanentNumber:D2}";
+        string pn = driver.PermanentNumber == 0 ? string.Empty : $"{driver.PermanentNumber:D2}";
         string name = driver.Code ?? driver.FamilyName;
 
         return $"{pn} {name}";
@@ -109,7 +109,6 @@ public partial class MainViewModel : ObservableObject
         return Enumerable.Range(startYear, DateTime.Now.Year - startYear)
             .OrderByDescending(p => p).ToList();
     }
-
     readonly IErgastService _ergastService;
     readonly RaceTrace _raceTrace;
 }
