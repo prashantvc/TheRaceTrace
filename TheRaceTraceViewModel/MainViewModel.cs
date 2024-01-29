@@ -51,9 +51,9 @@ public partial class MainViewModel : ObservableObject
         var drs = data.GroupBy(p => p.Driver);
         var tl = drs.Select(g => new LineSeries
         {
-            Title = $"{g.Key.PermanentNumber:D2} {g.Key.Code}",
+            Title = DriverDisplayTitle(g.Key),
             ItemsSource = g.OrderBy(p => p.Lap).Select(p => new DataPoint(p.Lap, p.Time)),
-            TrackerFormatString = "{0} \nLap: {2:0} Time: {4:F3}",
+            TrackerFormatString = "{0}\nLap: {2:0}\nTime: {4:F3}",
             CanTrackerInterpolatePoints = false,
         });
 
@@ -69,7 +69,10 @@ public partial class MainViewModel : ObservableObject
 
     void InitialisePlotModel()
     {
-        PlotModel = new();
+        PlotModel = new()
+        {
+            Title = $"{SelectedRace.RaceName} ({SelectedSeason}) - {SelectedRace.Circuit.CircuitName}",
+        };
 
         PlotModel.Legends.Add(new Legend
         {
@@ -91,6 +94,14 @@ public partial class MainViewModel : ObservableObject
             Y = 0,
             Color = OxyColors.Black,
         });
+    }
+
+    string DriverDisplayTitle(Driver driver)
+    {
+        string pn = driver.PermanentNumber == 0 ? string.Empty : $"{ driver.PermanentNumber:D2}";
+        string name = driver.Code ?? driver.FamilyName;
+
+        return $"{pn} {name}";
     }
 
     static IReadOnlyList<int> GetSeasons()
