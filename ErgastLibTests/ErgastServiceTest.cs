@@ -9,7 +9,7 @@ namespace ErgastLibTests
     {
 
         [TestMethod]
-        public async Task GetDrivers()
+        public async Task GivenErgastApiServiceReturnListOfDrivers()
         {
             var apiMock = new Mock<IErgastApi>();
             var service = new ErgastService(apiMock.Object);
@@ -28,7 +28,7 @@ namespace ErgastLibTests
 
 
         [TestMethod]
-        public async Task GetFlatLapTimes()
+        public async Task GivenASeasonAndRoundReturnListOfLaps()
         {
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
@@ -43,7 +43,7 @@ namespace ErgastLibTests
         }
 
         [TestMethod]
-        public async Task RaceOverview()
+        public async Task GivenASeasonAndRoundReturnRaceSummary()
         {
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
