@@ -5,10 +5,10 @@ public partial class RaceData
     public string RaceName => MrData.RaceTable.Races.FirstOrDefault()?.RaceName ?? string.Empty;
     public string RaceDate => MrData.RaceTable.Races.FirstOrDefault()?.Date ?? string.Empty;
     
-    IEnumerable<Lap> GetLaps()
+    Lap[] GetLaps()
     {
         var firstRace = MrData.RaceTable.Races.FirstOrDefault();
-        return firstRace != null ? firstRace.Laps : Array.Empty<Lap>();
+        return firstRace != null ? firstRace.Laps : [];
     }
 
     internal IEnumerable<LapTime> GetLapTimes()

@@ -5,13 +5,8 @@
 //    using QuickType;
 //
 //    var raceSummarry = RaceSummarry.FromJson(jsonString);
-#nullable enable
-#pragma warning disable CS8618
-#pragma warning disable CS8601
-#pragma warning disable CS8603
 
 
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 public partial class TestRaceSummary
@@ -60,30 +55,3 @@ public partial class TestLapTime
 }
 
 
-
-internal class ParseStringConverter : JsonConverter<int>
-{
-    public override bool CanConvert(Type t) => t == typeof(int);
-
-    public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        if (int.TryParse(value, out int l))
-        {
-            return l;
-        }
-        throw new Exception("Cannot unmarshal type int");
-    }
-
-    public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(writer, value.ToString(), options);
-        return;
-    }
-
-    public static readonly ParseStringConverter Singleton = new ParseStringConverter();
-}
-
-#pragma warning restore CS8618
-#pragma warning restore CS8601
-#pragma warning restore CS8603
