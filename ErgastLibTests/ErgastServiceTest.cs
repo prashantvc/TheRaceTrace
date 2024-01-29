@@ -15,18 +15,18 @@ namespace ErgastLibTests
             var service = new ErgastService(apiMock.Object);
 
             var constructors = await ParseTestDataAsync("Constructors.json");
-            apiMock.Setup(x => x.GetConstructorsAsync(CurrentSeason, LastRound))
+            apiMock.Setup(x => x.GetConstructorsAsync(CurrentSeason, LastReace))
                 .ReturnsAsync(constructors!);
             
             var driverData = await ParseTestDataAsync("Drivers.json");
             apiMock.Setup(x => 
-                    x.GetDriversAsync(CurrentSeason, LastRound, It.IsAny<string>()))
+                    x.GetDriversAsync(CurrentSeason, LastReace, It.IsAny<string>()))
                 .ReturnsAsync(driverData!);
 
             var drivers = await service.GetDriversAsync();
             
             apiMock.Verify(x=>
-                x.GetDriversAsync(CurrentSeason, LastRound, It.IsAny<string>()), 
+                x.GetDriversAsync(CurrentSeason, LastReace, It.IsAny<string>()), 
                 Times.Exactly(10));
             Assert.AreEqual(20, drivers.Count());
         }
@@ -37,13 +37,13 @@ namespace ErgastLibTests
         {
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
-            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound))
+            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastReace))
                 .ReturnsAsync(testLapData!);
             
             var service = new ErgastService(apiMock.Object);
             var lapTimes = await service.GetLapTimeAsync();
             
-            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound), Times.Once);
+            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastReace), Times.Once);
             Assert.AreEqual(1157, lapTimes.GetLapTimes().Count(), "Lap times count do not match");
         }
 
@@ -53,22 +53,22 @@ namespace ErgastLibTests
             var testLapData = await ParseTestDataAsync("Laps.json");
             var apiMock = new Mock<IErgastApi>();
             
-            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastRound))
+            apiMock.Setup(x => x.GetLapsAsync(CurrentSeason, LastReace))
                 .ReturnsAsync(testLapData!);
             
             var constructors = await ParseTestDataAsync("Constructors.json");
-            apiMock.Setup(x => x.GetConstructorsAsync(CurrentSeason, LastRound))
+            apiMock.Setup(x => x.GetConstructorsAsync(CurrentSeason, LastReace))
                 .ReturnsAsync(constructors!);
             
             var driverData = await ParseTestDataAsync("Drivers.json");
             apiMock.Setup(x => 
-                    x.GetDriversAsync(CurrentSeason, LastRound, It.IsAny<string>()))
+                    x.GetDriversAsync(CurrentSeason, LastReace, It.IsAny<string>()))
                 .ReturnsAsync(driverData!);
             
             var service = new ErgastService(apiMock.Object);
             var raceSummary = await service.RaceSummaryAsync();
             
-            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastRound), Times.Once);
+            apiMock.Verify(x=>x.GetLapsAsync(CurrentSeason, LastReace), Times.Once);
             Assert.AreEqual(2023, raceSummary.Season, "Race season do not match");
             Assert.AreEqual(22, raceSummary.Round, "round do not match");
         }
@@ -80,6 +80,6 @@ namespace ErgastLibTests
         }
         
         const string CurrentSeason = "current";
-        const string LastRound = "last";
+        const string LastReace = "last";
     }
 }

@@ -37,12 +37,12 @@ public class ErgastService(IErgastApi ergastApi) : IErgastService
     static (string season, string round) ParseRaceParameters(int season, int round = 0)
     {
         string localSeason = season == 0 ? CurrentSeason : season.ToString();
-        string localRound = round == 0 ? LastRound : round.ToString();
+        string localRound = round == 0 ? LastRace : round.ToString();
 
         return (localSeason, localRound);
     }
 
     const string CurrentSeason = "current";
-    const string LastRound = "last";
+    const string LastRace = "last";
 }
 
