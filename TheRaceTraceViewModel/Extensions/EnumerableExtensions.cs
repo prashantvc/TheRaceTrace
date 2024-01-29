@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Provides extension methods for the <see cref="IEnumerable{double}"/> interface.
 /// </summary>
-internal static class EnumerableExtensions
+static class EnumerableExtensions
 {
     /// <summary>
     /// Computes the cumulative sum of a sequence of double values.
