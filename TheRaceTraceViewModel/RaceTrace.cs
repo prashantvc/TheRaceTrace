@@ -1,8 +1,8 @@
 ﻿record LapSeries(Driver? Driver, List<(int Lap, double Time)> DataPoint);
 
-internal class RaceTrace
+class RaceTrace
 {
-    public List<LapSeries> CreateTraces(List<DriverLapTime> driverLapTimes)
+    internal List<LapSeries> CreateTraces(List<DriverLapTime> driverLapTimes)
     {
         var result = driverLapTimes
             .OrderByDescending(Classification)

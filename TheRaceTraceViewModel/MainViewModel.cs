@@ -16,11 +16,11 @@ public partial class MainViewModel : ObservableObject
         _raceTrace = new RaceTrace();
         selectedSeason = Seasons.First();
     }
+    public PlotModel PlotModel { get; private set; }
 
     [ObservableProperty]
     int selectedSeason;
     public IReadOnlyList<int> Seasons => GetSeasons();
-
 
     [ObservableProperty]
     Race selectedRace;
@@ -95,7 +95,7 @@ public partial class MainViewModel : ObservableObject
         });
     }
 
-    string DriverDisplayTitle(Driver driver)
+    static string DriverDisplayTitle(Driver driver)
     {
         string pn = driver.PermanentNumber == 0 ? string.Empty : $"{ driver.PermanentNumber:D2}";
         string name = driver.Code ?? driver.FamilyName;
@@ -109,8 +109,6 @@ public partial class MainViewModel : ObservableObject
         return Enumerable.Range(startYear, DateTime.Now.Year - startYear)
             .OrderByDescending(p => p).ToList();
     }
-
-    public PlotModel PlotModel { get; private set; }
 
     readonly IErgastService _ergastService;
     readonly RaceTrace _raceTrace;

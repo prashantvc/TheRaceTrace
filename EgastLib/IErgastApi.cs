@@ -3,9 +3,6 @@ namespace ErgastLib;
 
 public interface IErgastApi
 {
-    //http://ergast.com/api/f1/current/last/laps.json?limit=2000
-
-
     /// <summary>
     /// Returns the last lap times for the last race is current season
     /// </summary>
@@ -23,4 +20,7 @@ public interface IErgastApi
 
     [Get("/{season}.json")]
     Task<RaceData> GetRaceListAsync(string season);
+
+    [Get("/{season}/{round}/drivers.json")]
+    Task<RaceData> GetDriversAsync(string season, string round);
 }

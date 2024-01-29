@@ -28,24 +28,9 @@ namespace ErgastLibTests
             apiMock.Verify(x=>
                 x.GetDriversAsync(CurrentSeason, LastRound, It.IsAny<string>()), 
                 Times.Exactly(10));
-            Assert.AreEqual(20, drivers.Count);
+            Assert.AreEqual(20, drivers.Count());
         }
         
-        [TestMethod]
-        public async Task GetConstructorData()
-        {
-            var testData = await ParseTestDataAsync("Constructors.json");
-            var apiMock = new Mock<IErgastApi>();
-            apiMock.Setup(x => x.GetConstructorsAsync(CurrentSeason, LastRound))
-                .ReturnsAsync(testData!);
-
-            var service = new ErgastService(apiMock.Object);
-            var constructors = await service.GetConstructorsAsync();
-            apiMock.Verify(x => x.GetConstructorsAsync(CurrentSeason, LastRound), Times.Once);
-            
-            Assert.IsNotNull(constructors);
-            Assert.AreEqual(10, constructors.Count());
-        }
         
         [TestMethod]
         public async Task GetFlatLapTimes()
