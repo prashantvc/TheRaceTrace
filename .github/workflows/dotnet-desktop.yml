@@ -58,6 +58,7 @@ jobs:
         env:
             Solution_Name: TheRaceTrace.sln # Replace with your solution name, i.e. MyWpfApp.sln.
             Test_Project_Path: ErgastLibTests\ErgastLibTests.csproj # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+            VM_Test_Project_Path: TheRaceTraceViewModelTest\TheRaceTraceViewModelTest.csproj # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
             Wap_Project_Directory: TheRaceTraceWpf # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
             Wap_Project_Path: TheRaceTraceWpf\TheRaceTraceWpf.csproj # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
@@ -78,8 +79,12 @@ jobs:
               uses: microsoft/setup-msbuild@v2
 
             # Execute all unit tests in the solution
-            - name: Execute unit tests
-              run: dotnet test
+            - name: Execute ErgastLibTests
+              run: dotnet test $env:Test_Project_Path
+
+            # Execute all unit tests in the solution
+            - name: Execute ViewModelTests
+              run: dotnet test $env:VM_Test_Project_Path
 
             # Restore the application to populate the obj folder with RuntimeIdentifiers
             - name: Restore the application
