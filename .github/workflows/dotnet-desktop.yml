@@ -86,6 +86,9 @@ jobs:
             - name: Execute ViewModelTests
               run: dotnet test $env:VM_Test_Project_Path
 
+            - name: Test Reporter
+              uses: dorny/test-reporter@v1.9.1
+
             # Restore the application to populate the obj folder with RuntimeIdentifiers
             - name: Restore the application
               run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
