@@ -87,6 +87,7 @@ jobs:
 
             - name: ErgastLibTests Reporter
               uses: dorny/test-reporter@v1.9.1
+              if: success() || failure()
               with:
                   name: ErgastLibTests Results
                   path: TestResults/ErgastLibTests*.trx
@@ -98,6 +99,7 @@ jobs:
 
             - name: TheRaceTraceViewModelTest Reporter
               uses: dorny/test-reporter@v1.9.1
+              if: success() || failure()
               with:
                   name: TheRaceTraceViewModelTest Results
                   path: TestResults/TheRaceTraceViewModelTest*.trx
@@ -106,5 +108,6 @@ jobs:
             # Restore the application to populate the obj folder with RuntimeIdentifiers
             - name: Restore the application
               run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+              if: success() || failure()
               env:
                   Configuration: ${{ matrix.configuration }}
