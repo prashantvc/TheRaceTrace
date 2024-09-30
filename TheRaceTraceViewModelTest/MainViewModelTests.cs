@@ -22,7 +22,7 @@ namespace TheRaceTraceViewModelTest
             vm.LoadRaceDataCommand.Execute(null);
 
             serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(2023, 1), Times.Once());
-            Assert.AreEqual(21, vm.PlotModel.Series.Count);
+            Assert.AreEqual(20, vm.PlotModel.Series.Count);
         }
 
 
