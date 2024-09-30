@@ -47,6 +47,9 @@ on:
 
 jobs:
     build:
+        permissions:
+            checks: write
+
         strategy:
             matrix:
                 configuration: [Debug, Release]
@@ -82,16 +85,16 @@ jobs:
             - name: Execute ErgastLibTests
               run: dotnet test $env:Test_Project_Path
 
-            # Execute all unit tests in the solution
-            - name: Execute ViewModelTests
-              run: dotnet test $env:VM_Test_Project_Path
-
             - name: ErgastLibTests Reporter
               uses: dorny/test-reporter@v1.9.1
               with:
                   name: ErgastLibTests Results
                   path: TestResults/ErgastLibTests*.trx
                   reporter: dotnet-trx
+
+            # Execute all unit tests in the solution
+            - name: Execute ViewModelTests
+              run: dotnet test $env:VM_Test_Project_Path
 
             - name: TheRaceTraceViewModelTest Reporter
               uses: dorny/test-reporter@v1.9.1
