@@ -86,8 +86,19 @@ jobs:
             - name: Execute ViewModelTests
               run: dotnet test $env:VM_Test_Project_Path
 
-            - name: Test Reporter
+            - name: ErgastLibTests Reporter
               uses: dorny/test-reporter@v1.9.1
+              with:
+                  name: ErgastLibTests Results
+                  path: TestResults/ErgastLibTests*.trx
+                  reporter: dotnet-trx
+
+            - name: TheRaceTraceViewModelTest Reporter
+              uses: dorny/test-reporter@v1.9.1
+              with:
+                  name: TheRaceTraceViewModelTest Results
+                  path: TestResults/TheRaceTraceViewModelTest*.trx
+                  reporter: dotnet-trx
 
             # Restore the application to populate the obj folder with RuntimeIdentifiers
             - name: Restore the application
