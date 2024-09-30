@@ -22,7 +22,7 @@ namespace TheRaceTraceViewModelTest
             vm.LoadRaceDataCommand.Execute(null);
 
             serviceMock.Verify(serviceMock => serviceMock.RaceSummaryAsync(2023, 1), Times.Once());
-            Assert.AreEqual(20, vm.PlotModel.Series.Count);
+            Assert.AreEqual(21, vm.PlotModel.Series.Count);
         }
 
 
@@ -30,7 +30,7 @@ namespace TheRaceTraceViewModelTest
         public async Task GivenASeasonReturnListOfRaces()
         {
             var serviceMock = new Mock<IErgastService>();
-            serviceMock.Setup(p=>p.RaceListAsync(2023)).ReturnsAsync(await ParseTestRaceListDataAsync());
+            serviceMock.Setup(p => p.RaceListAsync(2023)).ReturnsAsync(await ParseTestRaceListDataAsync());
 
             var vm = new MainViewModel(serviceMock.Object)
             {
